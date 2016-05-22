@@ -1,0 +1,66 @@
+<div class="row">
+    <br>
+    <div class="col s6 offset-s3">
+        <div class="card">
+            <br>
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li ng-repeat="poster in event.posters | orderBy: '-votes'">
+                    <div class="collapsible-header">
+                        <i class="material-icons">add</i>
+                        {{poster.title}}
+
+                        <span id="voteCount">
+                            {{poster.votes}}    
+                        </span>
+                    </div>
+                    <div class="collapsible-body poster-body">
+                        <p>{{poster.description}}
+                        <br><br>    
+                        <b>{{poster.author}}</b>
+                        </p>
+
+                        <div class="row thumbsUpRow">     
+                            <div class="col s2 offset-s10">
+                                <i id="thumbUp" ng-click="incrementVotes(poster)" class="material-icons large_size prefix" >thumb_up</i>
+                            </div>    
+                        </div>    
+                    </div>
+                </li>
+            </ul>
+
+            <br>
+            <br>
+            <form class="row" ng-submit="addPoster()">
+                <div class="row">
+                    <div class="input-field col s6 offset-s1">
+                        <i class="material-icons prefix">title</i>
+                        <input id="icon_prefix" type="text" class="validate" ng-model="title">
+                        <label for="icon_prefix">Title</label>
+                    </div> 
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6 offset-s1">
+                        <i class="material-icons prefix">perm_identity</i>
+                        <input id="icon_prefix" type="text" class="validate" ng-model="author">
+                        <label for="icon_prefix">Author</label>
+                    </div> 
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s10 offset-s1">
+                        <i class="material-icons prefix">format_align_left</i>
+
+                        <textarea id="textarea1" class="materialize-textarea" ng-model="description"></textarea>
+                        <label for="textarea1">Description</label>
+                    </div> 
+
+                    <div id="eventSubmit" class="col s2 offset-s5">
+                        <button id="eventSubmit" type="submit" class="waves-effect waves-light btn">Submit</button>
+                    </div>
+                </div>
+            </form>                    
+            <br>
+        </div>
+    </div>
+</div>

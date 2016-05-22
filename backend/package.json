@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "Backend for postr",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/skingaby/postr.git"
+  }, 
+  "readme": "README.md",
+  "author": "Steven Kingaby",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "~4.13.3",
+    "debug": "~2.2.0",
+    "express-json": "^1.0.0",
+    "mongoose": "^4.4.17",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0", 
+    "body-parser" : "~1.4.2",
+    "method-override" : "~2.0.2"    
+  }
+}

@@ -1,0 +1,60 @@
+@font-face {
+    src: url('../fonts/coolvetica-rg.ttf');
+    font-family: Postr;
+}
+
+body {
+    font-family: Postr;  
+    background-color: #DCF0F7 !important;  
+}
+
+.dark-blue {
+    background-color: #0C2C52 !important;
+}
+
+.blue {
+    color: #03a9f4 !important;
+}
+
+#thumbUp {
+    cursor: pointer;
+}
+
+#voteCount {
+    float: right;
+    font-size: 1.5em;
+}
+
+.row.thumbsUpRow {
+    margin-bottom: 1%;
+}
+
+#postrTitle {
+    font-size: 10em;
+}
+
+#eventSubmit {
+    margin-top: 2%;
+}
+
+#columnId1 {
+    text-align: left !important;   
+    padding-left: 10% !important;
+}
+
+#columnId2 {
+    text-align: right !important;   
+    padding-right: 5% !important;
+}
+
+.material-icons.large_size { font-size: 48px; }
+
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+/*#03a9f4*/
+
