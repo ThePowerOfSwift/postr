@@ -9,19 +9,22 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/skingaby/postr.git"
-  }, 
+  },
   "readme": "README.md",
   "author": "Steven Kingaby",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.14.1",
-    "express": "~4.13.3",
+    "body-parser": "~1.4.2",
     "debug": "~2.2.0",
+    "express": "~4.13.3",
     "express-json": "^1.0.0",
+    "gcloud": "^0.34.0",
+    "method-override": "~2.0.2",
     "mongoose": "^4.4.17",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0", 
-    "body-parser" : "~1.4.2",
-    "method-override" : "~2.0.2"    
+    "nearest-neighbor": "0.0.3",
+    "node-gyp": "^3.3.1",
+    "rebuild": "^0.1.2",
+    "serve-favicon": "~2.3.0"
   }
 }
