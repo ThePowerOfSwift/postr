@@ -5,6 +5,4 @@
 
     postr.controller('indexCtrl', ['$scope', function ($scope) {
     }]);
-    
-    
 }());

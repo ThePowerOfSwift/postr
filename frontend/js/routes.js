@@ -10,7 +10,12 @@ postr.config(function($stateProvider, $urlRouterProvider) {
         .state('events', {
             url: '/events', 
             templateUrl: 'components/events/events.html', 
-            controller: 'eventsCtrl'
+            controller: 'eventsCtrl',
+            resolve: {
+                eventPromise: ['events', function(events){
+                    return events.getAll();
+                }]
+            }
         })
         .state('posters', {
             url: '/posters/{id}', 
@@ -21,28 +26,18 @@ postr.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
 });
 
-postr.factory('events', [function() {
+postr.factory('events', ['$http', function($http) {
     var o = {
-        events: [
-            { name: 'IC Maths First Year Poster Competition',     description: 'Lorem ipsum dolor sit amet.', 
-              date: 5,
-              posters: [
-                { title: 'Web Security: Man in the Middle Attack',     author: 'Steven Kingaby', 
-                  description: 'Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.',
-                  votes: 7}
-                ]
-            },
-            { name: 'Nuclear Physics Conference', 
-              description: 'Lorem ipsum dolor sit amet.', 
-              date: 2, 
-              posters: [
-                { title: 'Machine Learning: Decision Trees',     author: 'Steven Kingaby', 
-                  description: 'Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.',
-                  votes: 10}
-                ]
-            }
-        ]
+        events: []
     };
+    
+    o.getAll = function() {
+        return $http.get('/events').success(function(response) {
+            angular.copy(response.events, o.events);
+        });
+    };
+    
+    
 
     return o;
 }]);

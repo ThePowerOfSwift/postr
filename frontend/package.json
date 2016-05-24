@@ -15,7 +15,8 @@
   "dependencies": {
     "angular-ui-router": "~0.2.18",
     "express": "~4.13.3",
-    "materialize-css": "^0.97.1"
+    "materialize-css": "^0.97.1",
+    "ng-pickadate": "^0.3.1"
   },
   "devDependencies": {
     "http-server": "^0.8.5"
