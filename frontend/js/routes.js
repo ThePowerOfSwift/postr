@@ -20,7 +20,12 @@ postr.config(function($stateProvider, $urlRouterProvider) {
         .state('posters', {
             url: '/posters/{id}', 
             templateUrl: 'components/posters/posters.html', 
-            controller: 'postersCtrl'
+            controller: 'postersCtrl', 
+            resolve: {
+                posters: ['$stateParams', 'events', function($stateParams, events) {
+                    return events.get($stateParams.id);
+                }]
+            }
         });
     
     $urlRouterProvider.otherwise('/home');
@@ -37,7 +42,18 @@ postr.factory('events', ['$http', function($http) {
         });
     };
     
+    o.create = function(event) {
+        return $http.post('/events', event).then(function(response) {
+                o.events.push(response.data.event);                
+        });
     
+    // Return posters with given event_id
+    o.get = function(event_id) {
+        return $http.get('/posters/' + event_id).then(function(res){
+            return res.data;
+    });
+};        
+};
 
     return o;
 }]);

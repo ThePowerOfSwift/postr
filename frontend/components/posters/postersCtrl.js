@@ -6,7 +6,9 @@
     '$scope',
     '$stateParams',
     'events',
-    function($scope, $stateParams, events) {
+    'posters'    
+    function($scope, $stateParams, events, posters) {
+        
         $scope.event = events.events[$stateParams.id];
         
         $scope.addPoster = function() {

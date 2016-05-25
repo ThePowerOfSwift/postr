@@ -62,6 +62,8 @@ function main(inputFile, callback) {
             return callback(err);
         }
 
+        console.log(text[0].desc + '\n');
+        
         var query = { name: text[0].desc, author: text[0].desc };
         
         nn.findMostSimilar(query, items, fields, function(nearestNeighbor, probability) {   

@@ -25,22 +25,42 @@
             });
         });
         
-        
-        
         // Create a new event
-        router.post('/events', function(req, res) {
+        app.post('/events', function(req, res) {
             console.log('POST /events');
             
-            res.status(200).json({
-              message: 'POST /events',
-              data: 'Test Data'
-            });            
+            var name = req.body.name;
+            var description = req.body.description;
+            var start_date = req.body.start_date;
+            var end_date = req.body.end_date;
+            
+            var postEventsQuery
+                = "INSERT INTO 'events' (name, description, start_date, end_date) \
+                  VALUES ('" +  name + "', '" + description + "', '" + start_date + "', '" + end_date + "');";
+            
+            db.run(postEventsQuery, function(err) { 
+                if (err) {
+                    console.log(err);
+                }
+                
+                res.status(200).json({
+                    event: {
+                        event_id: this.lastID, 
+                        name: name, 
+                        description: description, 
+                        start_date: start_date, 
+                        end_date: end_date
+                    }
+                });            
+            })
+            
+            
         });
         
         
         
        // Return an individual event with associated posters
-       router.get('/events:id', function (req, res) {
+       app.get('/events:id', function (req, res) {
             console.log('GET /events:id');
            
             res.status(200).json({
@@ -50,7 +70,7 @@
         });
         
         // Add a new poster to an event by ID
-        router.post('/events/:id/posters', function (req, res) {
+        app.post('/events/:id/posters', function (req, res) {
             console.log('POST /events:id/posters');
             
             res.status(200).json({
@@ -60,7 +80,7 @@
         });
         
         // Upvote a poster
-        router.put('/events/:id/posters/:id/upvote', function (req, res) {
+        app.put('/events/:id/posters/:id/upvote', function (req, res) {
             console.log('PUT events/:id/posters/:id/upvote');
             
             res.status(200).json({

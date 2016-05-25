@@ -20,8 +20,8 @@
                 return; 
             }
 
-            $scope.events.push({name: $scope.name, description: $scope.description, 
-                                start_date: $scope.start_date, end_date: $scope.end_date,});
+            events.create({name: $scope.name, description: $scope.description, 
+                           start_date: $scope.start_date, end_date: $scope.end_date});
             $scope.name = '';
             $scope.start_date = '';
             $scope.end_date = '';
@@ -31,9 +31,11 @@
         // Get an integer representation of today's date
         // To be used for comparision later. 
         var getToday = function() {
+            // Note that january month is equivalent to 0,
+            // so we increment the mm month variable.
             var today = new Date();
             var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
+            var mm = today.getMonth() + 1; 
             var yyyy = today.getFullYear();
 
             return dd + mm * 30 + yyyy * 365;
