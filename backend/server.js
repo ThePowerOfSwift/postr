@@ -5,10 +5,12 @@
     var express        = require('express');
     var bodyParser     = require('body-parser');
     var sqlite         = require('sqlite3');
+    var multer         = require('multer')
+    var fs             = require('fs');
+    var gcloud         = require('gcloud');
+    var nn             = require('nearest-neighbor');
     var app            = express();
-    
-    
-    // configuration
+
         
     // set our port
     var port = process.env.PORT || 3000; 
@@ -24,7 +26,7 @@
     app.use(express.static(__dirname + '/../frontend')); 
     
     // routes 
-    require('./routes/routes.js')(app, express, sqlite); 
+    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn); 
     
     // expose app           
     exports = module.exports = app; 

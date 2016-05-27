@@ -12,7 +12,6 @@
         
         $scope.addEvent = function() {             
             if(!$scope.name || $scope.name === '' ||
-               !$scope.description || $scope.description === '' ||
                !$scope.start_date || !$scope.end_date ||
                compareDates($scope.start_date) < getToday() ||
                compareDates($scope.start_date) > compareDates($scope.end_date)) { 

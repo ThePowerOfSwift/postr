@@ -6,7 +6,6 @@
 var gcloud = require('gcloud');
 var nn = require('nearest-neighbor');
 
-
 // GOOGLE_APPLICATION_CREDENTIALS and GCLOUD_PROJECT
 // environment variables should have already been set
 var projectId = process.env.GCLOUD_PROJECT;
@@ -32,7 +31,7 @@ var items = [
     { title: "Compilers", author: "Maisie Robinson"}, 
     { title: "Operating Systems", author: "Macks Thrower"}, 
     { title: "Scientific Computation", author: "Dan Moore"} 
-]
+];
 
 
 
@@ -76,6 +75,10 @@ function main(inputFile, callback) {
 
 // Extract passed argument for image filename
 if (module === require.main) {
+    
+    console.log(process.argv);
+    
+    
     if (process.argv.length < 3) {
         console.log('Usage: node labelDetection <inputFile>');
         process.exit(1);

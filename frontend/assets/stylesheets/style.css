@@ -3,6 +3,7 @@
     font-family: Postr;
 }
 
+/*#03a9f4*/
 body {
     font-family: Postr;  
     background-color: #DCF0F7 !important;  
@@ -56,5 +57,85 @@ body {
 	font-size: inherit;
 }
 
-/*#03a9f4*/
+.slides {
+    background-color: #DCF0F7 !important;
+}
 
+.indicator-item.active {
+    background-color: #ff9800 !important;
+}
+
+.picker__weekday-display {
+    background-color: #ff9800 !important;
+}
+
+/* Find a lighter colour*/
+.picker__date-display {
+    background-color: #ff9800 !important;
+}
+
+.picker__day.picker__day--today {
+    color: #ff9800 !important;
+}
+
+.picker__day.picker__day--today.picker__day--selected {
+    color: #fff !important;
+}
+
+.picker__day--selected {
+    background-color: #ff9800 !important;
+}
+
+.picker__year-display {
+    color: #fff;
+}
+
+.dropdown-content {
+    background-color: #0C2C52 !important;
+}
+
+.picker__close, .picker__today {
+    color: #ff9800 !important;
+}
+
+.dropdown-content li>a {
+    color: #fff !important;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #ff9800 !important;
+    box-shadow: 0 1px 0 0 #ff9800 !important;
+}
+
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:focus:not([readonly]) + label,
+input[type=password]:focus:not([readonly]) + label,
+input[type=email]:focus:not([readonly]) + label,
+input[type=url]:focus:not([readonly]) + label,
+input[type=time]:focus:not([readonly]) + label,
+input[type=date]:focus:not([readonly]) + label,
+input[type=datetime]:focus:not([readonly]) + label,
+input[type=datetime-local]:focus:not([readonly]) + label,
+input[type=tel]:focus:not([readonly]) + label,
+input[type=number]:focus:not([readonly]) + label,
+input[type=search]:focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #ff9800;
+}
+
+
+.input-field .prefix.active {
+    color: #ff9800  !important;
+}

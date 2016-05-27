@@ -23,7 +23,7 @@ postr.config(function($stateProvider, $urlRouterProvider) {
             controller: 'postersCtrl', 
             resolve: {
                 posters: ['$stateParams', 'events', function($stateParams, events) {
-                    return events.get($stateParams.id);
+                    return events.get($stateParams.id); 
                 }]
             }
         });
@@ -45,16 +45,27 @@ postr.factory('events', ['$http', function($http) {
     o.create = function(event) {
         return $http.post('/events', event).then(function(response) {
                 o.events.push(response.data.event);                
-        });
+        });   
+    }
     
-    // Return posters with given event_id
+    // Return posters for a given event
     o.get = function(event_id) {
-        return $http.get('/posters/' + event_id).then(function(res){
-            return res.data;
-    });
-};        
-};
+        return $http.get('/events/' + event_id).then(function(response){
+            return response.data.posters;
+        });       
+    };
 
+    // Add a poster for a given event
+    o.addPoster = function(event_id, poster) {
+        return $http.post('/events/' + event_id + '/posters', poster);
+    };
+    
+    o.vote = function(poster) {
+        return $http.put('/events/' + poster.event_id + '/posters/' + poster.poster_id + '/upvote').success(function(response) {
+            poster.votes++;
+        });
+    };
+    
     return o;
 }]);
 

@@ -4,7 +4,7 @@
         <div class="card">
             <br>
             <ul class="collapsible popout" data-collapsible="accordion">
-                <li ng-repeat="poster in event.posters | orderBy: '-votes'">
+                <li ng-repeat="poster in posters | orderBy: '-votes'">
                     <div class="collapsible-header">
                         <i class="material-icons">add</i>
                         {{poster.title}}
@@ -55,12 +55,24 @@
                         <label for="textarea1">Description</label>
                     </div> 
 
-                    <div id="eventSubmit" class="col s2 offset-s5">
-                        <button id="eventSubmit" type="submit" class="waves-effect waves-light btn">Submit</button>
+                    <div id="eventSubmit" align="center">
+                        <button id="eventSubmit" type="submit" class="waves-effect waves-light orange btn">Submit</button>
                     </div>
                 </div>
             </form>                    
-            <br>
+            <br>      
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <br>
+    <div class="col s6 offset-s3">
+        <div class="card">
+            <form id="ocrImageUpload" class="dropzone class s6" method="post" enctype="multipart/form-data">
+                <div class="fallback">
+                </div>
+            </form>
         </div>
     </div>
 </div>
