@@ -56,8 +56,10 @@ postr.factory('events', ['$http', function($http) {
     };
 
     // Add a poster for a given event
-    o.addPoster = function(event_id, poster) {
-        return $http.post('/events/' + event_id + '/posters', poster);
+    o.addPoster = function(event_id, poster, posters) {
+        return $http.post('/events/' + event_id + '/posters', poster).then(function(response) {
+            posters.push(response.data.poster);
+        });
     };
     
     o.vote = function(poster) {

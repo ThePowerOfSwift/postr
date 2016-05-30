@@ -20,10 +20,8 @@
             }
             
             events.addPoster($stateParams.id, 
-                            {title: $scope.title, author: $scope.author,     description: $scope.description, votes: 0}
-                            ).success(function(poster) {
-                $scope.posters.push(poster.data.poster);    
-            });
+                            {title: $scope.title, author: $scope.author,     description: $scope.description, votes: 0}, $scope.posters
+                            );
             
             $scope.title = '';
             $scope.author = '';

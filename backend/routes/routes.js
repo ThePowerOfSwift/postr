@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     module.exports = function(app, express, sqlite, multer, 
-                              fs, gcloud, nn) {
+                              fs, gcloud, nn, crypto) {
         
         // Get a router instance
         var router = express.Router();
@@ -32,14 +32,32 @@
         
         ///////////////////////////// Helper Functions /////////////////////////////
         
+        // Generates json web token
+        function generateJWT(username, user_id) {
+            // startDay = current day
+            // Token will expire in 50 days
+            var startDay = Date();
+            var exp = new Date(startDay);
+            exp.setDate(startDay.getDate() + 50);
+        
+            
+            // TODO: instead of hardcoding secret to be used
+            // to sign web tokens, store it in an environment variable
+            return jwt.sign({
+                user_id: user_id, 
+                username: username, 
+                exp: parseInt(exp.getTime() / 1000)
+            }, 'SECRET');
+        }
+        
         // Uses the Vision API to detect labels in the given file.
-        function detectText(inputFile, callback)  {
+        function detectText(inputFile, callback) {
             // Make a call to the Vision API to identify text
             vision.detectText(inputFile, { verbose: true }, function(err, text, apiResponse) {
                 if (err) {
                     return callback(err);
                 } else if (text == null) {
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: 'No text could be extracted'
                     });   
                 } else {
@@ -72,13 +90,13 @@
             db.all(getPosterQuery, function(err, rows) {
                 if (err) {
                     console.log(err);
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: err
                     });
                 }
 
                 // rows array should have just one element
-                res.status(200).json({
+                return res.status(200).json({
                     poster_id: rows[0].poster_id,
                     title: rows[0].title, 
                     author: rows[0].author 
@@ -100,7 +118,7 @@
                     var msg = 'Did not match any known poster entries!';
                     console.log(msg);
 
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: msg
                     });   
                 } else {
@@ -123,7 +141,7 @@
             db.all(getPostersForEventQuery, function(err, rows) {
                 if (err) {
                     console.log(err);
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: err
                     });
                 }
@@ -145,7 +163,7 @@
             detectText(imageFilePath, function (err, posterText) {
                 if (err) {
                     console.log(err);
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: err
                     });
                 }
@@ -190,7 +208,7 @@
                     console.log(err);
                 }
                 
-                res.status(200).json({
+                return res.status(200).json({
                     event: {
                         event_id: this.lastID, 
                         name: name, 
@@ -217,7 +235,7 @@
                     console.log(err);
                 }
                 
-                res.status(200).json({
+                return res.status(200).json({
                     posters: rows
                 });
             });
@@ -243,7 +261,7 @@
                     console.log(err);
                 }
                 
-                res.status(200).json({
+                return res.status(200).json({
                     poster: {
                         poster_id: this.lastID, 
                         event_id: event_id, 
@@ -253,7 +271,7 @@
                         votes: votes
                     }
                 });            
-            }) 
+            }); 
         });
         
         // Upvote a poster
@@ -280,21 +298,55 @@
             });
             
             // Return poster that has been upvoted
-            db.all(getPosterQuery, function(err, rows) {
+            db.all(getPosterQuery, function(err, posters) {
                 if (err) {
                     console.log(err);
                 }
                 
                 // Note should just be one element  
                 // in response array.
-                res.status(200).json({
-                    posters: rows
+                return res.status(200).json({
+                    posters: posters
                 });  
             });
         });
         
-        // Use the router we defined with the prefix of /api/
-        app.use('/api', router);
         
+        app.post('/register', function(req, res) {
+            var username = req.body.username;
+            var password = req.body.password;
+            
+            if(!username || !password) {
+                return res.status(500).json({
+                    message: 'Please fill out all fields'
+                });
+            } else if (false) {
+                // TODO: account for case when a given 
+                // username already exists in schema    
+            }
+            
+            // Create salt and a hash of password to be stored
+            // in users schema
+            var salt = crypto.randomBytes(32).toString('hex');
+            var hash = crypto.pbkdf2Sync(password, salt, 1000, 128).toString('hex');
+            
+            var postUserQuery
+                = "INSERT INTO 'users' (username, hash, salt) \
+                   VALUES ('" + username + "', '" + 
+                   hash + "', '" + salt + "');";
+            
+            db.run(postUserQuery, function(err) { 
+                if (err) {
+                    console.log(err);
+                }       
+                
+                return res.status(200).json({
+                    token: generateJWT(username, this.lastID)
+                }); 
+            });
+        });
+        
+        // Use the router we defined with the prefix of /api/
+        app.use('/api', router);   
     }
 }());

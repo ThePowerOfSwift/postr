@@ -4,6 +4,9 @@
     // modules
     var express        = require('express');
     var bodyParser     = require('body-parser');
+    var passport       = require('passport');
+    var passport_local = require('passport-local');
+    var crypto         = require('crypto');
     var sqlite         = require('sqlite3');
     var multer         = require('multer')
     var fs             = require('fs');
@@ -15,6 +18,10 @@
     // set our port
     var port = process.env.PORT || 3000; 
 
+        
+    // Passport configuration
+    require('./config/passport.js')(passport, passport_local, sqlite, crypto);
+    
     // get all data/stuff of the body (POST) parameters
     // parse application/json 
     app.use(bodyParser.json()); 
@@ -26,7 +33,10 @@
     app.use(express.static(__dirname + '/../frontend')); 
     
     // routes 
-    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn); 
+    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, crypto); 
+    
+    // Passport initilisation
+    app.use(passport.initialize());
     
     // expose app           
     exports = module.exports = app; 
