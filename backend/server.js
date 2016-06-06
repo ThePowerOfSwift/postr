@@ -30,7 +30,7 @@
     app.use(bodyParser.urlencoded({ extended: true })); 
     
     // Set the static files location
-    app.use(express.static(__dirname + '/../frontend')); 
+    app.use(express.static(__dirname + '/../frontend/web app')); 
     
     // routes 
     require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, crypto); 
