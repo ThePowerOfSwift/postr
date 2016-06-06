@@ -1,7 +1,7 @@
  {
   "name": "Postr",
   "version": "0.0.0",
-  "description": "Postr app",
+  "description": "The Poster Voting Competition System",
   "engines": {
     "node": "0.12.7"
   },
