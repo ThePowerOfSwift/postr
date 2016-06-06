@@ -7,7 +7,7 @@
     var passport       = require('passport');
     var passport_local = require('passport-local');
     var crypto         = require('crypto');
-    var sqlite         = require('sqlite3');
+//    var sqlite         = require('sqlite3');
     var multer         = require('multer')
     var fs             = require('fs');
     var gcloud         = require('gcloud');
@@ -33,7 +33,7 @@
     app.use(express.static(__dirname + '/../frontend/web app')); 
     
     // routes 
-    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, crypto); 
+//    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, crypto); 
     
     // Passport initilisation
     app.use(passport.initialize());
