@@ -1,26 +1,24 @@
-{
-  "name": "node-js-getting-started",
-  "version": "0.2.5",
-  "description": "A sample Node.js app using Express 4",
+ {
+  "name": "Postr",
+  "version": "0.0.0",
+  "description": "Postr app",
   "engines": {
-    "node": "5.9.1"
+    "node": "0.12.7"
   },
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "ejs": "2.4.1",
-    "express": "4.13.3"
+    "start": "node backend/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "git://github.com/skingaby/postr.git"
   },
+  "readme": "README.md",
+  "author": "Steven Kingaby",
+  "license": "ISC",
   "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "license": "MIT"
+    "heroku", 
+    "node", 
+    "postr"  
+  ]
 }

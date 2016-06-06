@@ -1,8 +1,8 @@
 {
-  "name": "Node.js Getting Started",
-  "description": "A barebones Node.js app using Express 4",
-  "repository": "https://github.com/heroku/node-js-getting-started",
+  "name": "Postr",
+  "description": "The Poster Voting Competition System",
+  "repository": "git://github.com/skingaby/postr.git",
+  "keywords": ["node", "express", "static", "postr"],
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
   "image": "heroku/nodejs"
 }
