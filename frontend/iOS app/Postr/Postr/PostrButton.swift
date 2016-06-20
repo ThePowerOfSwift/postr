@@ -8,30 +8,24 @@
 
 import UIKit
 
-
-// TODO: Rewrite this - taken from stack overflow
 class PostrButton: UIButton {
     
     // Corner radius of the background rectangle
-    var roundRectCornerRadius: CGFloat = 2
-
-    // Color of the background rectangle
-    var roundRectColor: UIColor = UIColor(red:1.00, green:0.60, blue:0.00, alpha:1.0)
+    var cornerRadius: CGFloat = 2
+    
+    // Background colour of rectangle
+    var rectangleColor: UIColor = UIColor(red:1.00, green:0.60, blue:0.00, alpha:1.0)
+    
+    var roundRectLayer: CAShapeLayer?
 
     override func layoutSubviews() {
         super.layoutSubviews()
         configurePostrButton()
     }
 
-
-    // MARK: Private
-
-    var roundRectLayer: CAShapeLayer?
-
     func configurePostrButton() {
-        
         // Change button font family and font color
-        self.titleLabel!.font = UIFont(name: "coolvetica", size: 15)
+        self.titleLabel!.font = UIFont(name: "coolvetica", size: 18)
         self.titleLabel!.textColor = UIColor.whiteColor()
         
         // Set button shadow
@@ -44,9 +38,10 @@ class PostrButton: UIButton {
             existingLayer.removeFromSuperlayer()
         }
         
+        // 
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: roundRectCornerRadius).CGPath
-        shapeLayer.fillColor = roundRectColor.CGColor
+        shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: cornerRadius).CGPath
+        shapeLayer.fillColor = rectangleColor.CGColor
         self.layer.insertSublayer(shapeLayer, atIndex: 0)
         self.roundRectLayer = shapeLayer
     }

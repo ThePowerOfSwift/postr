@@ -13,17 +13,18 @@
         $scope.addEvent = function() {             
             if(!$scope.name || $scope.name === '' ||
                !$scope.start_date || !$scope.end_date ||
-               compareDates($scope.start_date) < getToday() ||
-               compareDates($scope.start_date) > compareDates($scope.end_date)) { 
+               -compareDates($scope.start_date) < getToday() ||
+               compareDates($scope.start_date) < compareDates($scope.end_date)) { 
                 console.log('Error in eventsCtrl. TODO: write an error handler');
                 return; 
             }
 
-            events.create({name: $scope.name, description: $scope.description, 
+            events.create({name: $scope.name, description: $scope.description, address: $scope.address,
                            start_date: $scope.start_date, end_date: $scope.end_date});
             $scope.name = '';
             $scope.start_date = '';
             $scope.end_date = '';
+            $scope.address = '';
             $scope.description = '';
         };
         
@@ -42,10 +43,10 @@
         
         // Adds up the total number of dates since 0 A.D.
         // Comparison function to be used as a filter in ng-repeat
-         var compareDates = function(date) {
+        var compareDates = function(date) {
             var bits = date.split("/");
-            return parseInt(bits[0]) + parseInt(bits[1]) * 30 +
-                   parseInt(bits[2]) * 365;
+            return -(parseInt(bits[0]) + parseInt(bits[1]) * 30 +
+                     parseInt(bits[2]) * 365);
         }
         
         $scope.compareDates = function(event) {

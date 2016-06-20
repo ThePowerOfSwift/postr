@@ -8,9 +8,8 @@
         
         
         // Determines whether hash of given password is already stored
-        function validPassword(password, storedHash) {
-            var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 128).toString('hex');
-
+        function validPassword(password, storedHash, storedSalt) {
+            var hash = crypto.pbkdf2Sync(password, storedSalt, 1000, 128, 'sha512').toString('hex');
             return storedHash === hash;
         }
         
@@ -23,17 +22,16 @@
                 
                 db.all(getUsernameQuery, function(err, users) {
                     if (err) {
-                        console.log(err);
                         return done(err);
                     } else if (users.length == 0) {
                         // No stored usernames found
-                        return done(null, false, { message: 'Incorrect username.' });
-                    } else if (!validPassword(password, users[0].hash)) {
-                        return done(null, false, { message: 'Incorrect password.' });
+                        return done(null, false, { message: 'Incorrect username given.' });
+                    } else if (!validPassword(password, users[0].hash, users[0].salt)) {
+                        return done(null, false, { message: 'Incorrect password given.' });
                     } else {
                         // Note that there should be just one user 
                         // database query output
-                        return done(null, users[0]);
+                        return done(null, users[0].username);
                     }
                 });
             }

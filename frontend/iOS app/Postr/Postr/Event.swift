@@ -7,15 +7,19 @@
 //
 
 struct Event {
+    var event_id: Int
     var name: String?
-    var description: String?
+    var address: String?
     var start_date: String?
     var end_date: String?
+    var description: String?
     
-    init(name: String?, description: String?, start_date: String?, end_date: String?) {
+    init(event_id: Int, name: String?, address: String?, start_date: String?, end_date: String?, description: String?) {
+        self.event_id = event_id
         self.name = name
-        self.description = description
+        self.address = address
         self.start_date = start_date
         self.end_date = end_date
+        self.description = description
     }
 }

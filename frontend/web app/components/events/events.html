@@ -7,11 +7,15 @@
                     <li ng-repeat="event in events | orderBy:compareDates">
                         <div class="collapsible-header"><i class="material-icons">add</i>{{event.name}}
                         </div>
-                        <div class="collapsible-body "><p>{{event.description}} 
-                        <br><br>                            
-                        Start Date: {{event.start_date}}, End Date: {{event.end_date}}
-                        <br><br>                            
-                        <a href="#/posters/{{event.event_id}}" class="orange-text">See Poster Entries</a>      
+                        <div class="collapsible-body">
+                            <p>
+                                {{event.description}} 
+                                <br><br>
+                                {{event.address}} 
+                                <br><br>
+                                {{event.start_date}} - {{event.end_date}}
+                                <br><br>                            
+                                <a href="#/posters/{{event.event_id}}" class="orange-text">See Poster Entries</a>      
                             </p>
                         </div>
                     </li>
@@ -40,12 +44,20 @@
                             <label for="end_date">End Date</label>
                         </div> 
                     </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s10 offset-s1">
+                            <i class="material-icons prefix">home</i>
+                            <textarea id="textarea1" class="materialize-textarea" ng-model="address"></textarea>
+                            <label for="textarea1">Address</label>
+                        </div> 
+                    </div>
 
                     <div class="row">
                         <div class="input-field col s10 offset-s1">
                             <i class="material-icons prefix">format_align_left</i>
-                            <textarea id="textarea1" class="materialize-textarea" ng-model="description"></textarea>
-                            <label for="textarea1">Description</label>
+                            <textarea id="textarea2" class="materialize-textarea" ng-model="description"></textarea>
+                            <label for="textarea2">Description</label>
                         </div> 
                         
                         <div id="eventSubmit" align="center">

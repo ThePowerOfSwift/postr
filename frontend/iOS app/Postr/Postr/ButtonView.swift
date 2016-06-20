@@ -9,13 +9,23 @@
 import UIKit
 
 class ButtonView: UIView {
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
+    var button: VoteButton!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        let buttonFrame : CGRect = CGRect(origin: CGPointZero, size: self.frame.size)
+        
+        // Set button size and position
+        button = VoteButton(frame: buttonFrame)
+        button.setTitle("Vote", forState: UIControlState.Normal)
+        
+        // Add button to view
+        self.addSubview(button)
     }
-    */
-
+    
+    // By Apple library standards, this overriding method has
+    // to be written, even if it isn't called.
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 }

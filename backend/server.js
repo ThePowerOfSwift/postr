@@ -7,17 +7,20 @@
     var passport       = require('passport');
     var passport_local = require('passport-local');
     var crypto         = require('crypto');
-//    var sqlite         = require('sqlite3');
+    var jwt            = require('jsonwebtoken');
+    var express_jwt    = require('express-jwt');
+    var sqlite         = require('sqlite3');
     var multer         = require('multer')
     var fs             = require('fs');
     var gcloud         = require('gcloud');
     var nn             = require('nearest-neighbor');
+    var node_geocoder  = require('node-geocoder');
+    var geolib         = require('geolib')
     var app            = express();
 
         
     // set our port
     var port = process.env.PORT || 3000; 
-
         
     // Passport configuration
     require('./config/passport.js')(passport, passport_local, sqlite, crypto);
@@ -33,7 +36,8 @@
     app.use(express.static(__dirname + '/../frontend/web app')); 
     
     // routes 
-//    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, crypto); 
+    require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, node_geocoder, 
+                                  geolib, crypto, jwt, express_jwt, passport); 
     
     // Passport initilisation
     app.use(passport.initialize());

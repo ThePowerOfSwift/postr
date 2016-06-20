@@ -16,14 +16,8 @@
                     <div class="collapsible-body poster-body">
                         <p>{{poster.description}}
                         <br><br>    
-                        <b>{{poster.author}}</b>
+                        <b>{{poster.authors}}</b>
                         </p>
-
-                        <div class="row thumbsUpRow">     
-                            <div class="col s2 offset-s10">
-                                <i id="thumbUp" ng-click="incrementVotes(poster)" class="material-icons large_size prefix" >thumb_up</i>
-                            </div>    
-                        </div>    
                     </div>
                 </li>
             </ul>
@@ -42,21 +36,21 @@
                 <div class="row">
                     <div class="input-field col s6 offset-s1">
                         <i class="material-icons prefix">perm_identity</i>
-                        <input id="icon_prefix" type="text" class="validate" ng-model="author">
-                        <label for="icon_prefix">Author</label>
+                        <textarea id="textarea1" class="materialize-textarea" ng-model="authors"></textarea>
+                        <label for="textarea1">Authors</label>
+
                     </div> 
                 </div>
 
                 <div class="row">
                     <div class="input-field col s10 offset-s1">
                         <i class="material-icons prefix">format_align_left</i>
-
-                        <textarea id="textarea1" class="materialize-textarea" ng-model="description"></textarea>
-                        <label for="textarea1">Description</label>
+                        <textarea id="textarea2" class="materialize-textarea" ng-model="description"></textarea>
+                        <label for="textarea2">Description</label>
                     </div> 
 
-                    <div id="eventSubmit" align="center">
-                        <button id="eventSubmit" type="submit" class="waves-effect waves-light orange btn">Submit</button>
+                    <div id="posterSubmit" align="center">
+                        <button id="posterSubmit" type="submit" class="waves-effect waves-light orange btn">Submit</button>
                     </div>
                 </div>
             </form>                    

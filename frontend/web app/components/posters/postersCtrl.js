@@ -10,39 +10,25 @@
     function($scope, $stateParams, events, posters) {
         $scope.posters = posters;
         
-//        console.log($scope.posters);
+        
         
         $scope.addPoster = function() {
             if(!$scope.title || $scope.title === '' ||
-               !$scope.author || $scope.author === '' ||
-               !$scope.description || $scope.description === '') { 
+               !$scope.authors || $scope.authors === '') { 
                 return; 
             }
-            
+
             events.addPoster($stateParams.id, 
-                            {title: $scope.title, author: $scope.author,     description: $scope.description, votes: 0}, $scope.posters
-                            );
+                             {title: $scope.title, 
+                              authors: $scope.authors,
+                              description: $scope.description, 
+                              votes: 0}, 
+                             $scope.posters);
             
             $scope.title = '';
-            $scope.author = '';
+            $scope.authors = '';
             $scope.description = '';
         };
-  
-        var incrementVotes = function(poster) {
-            events.vote(poster);
-        }
-        
-        $scope.incrementVotes = function(poster) {
-            incrementVotes(poster);
-        }
-        
-        var findPosterUpvote = function(poster_id) {
-            for (var i = 0; i < $scope.posters.length; i++) {
-                if ($scope.posters[i].poster_id == poster_id) {
-                    incrementVotes($scope.posters[i]);
-                }
-            }
-        }
         
         // Initializes collapsible behaviour
         $('.collapsible').collapsible({
@@ -52,7 +38,7 @@
         
         
         $("#ocrImageUpload").dropzone({ 
-            url: '/events/' + $stateParams.id + '/websiteUpload',
+            url: '/events/' + $stateParams.id + '/findPoster',
             acceptedFiles: 'image/*', 
             // file size measured in MB 
             maxFilesize: 3, 
@@ -67,7 +53,6 @@
                               + '\'\n' + 'by ' + res.author;
                     
                     Materialize.toast(msg, 5000, 'rounded');
-                    findPosterUpvote(res.poster_id);
                   });
                 
                 // Show meter while sending file
