@@ -1,8 +1,0 @@
-{
-  "name": "Postr",
-  "description": "The Poster Voting Competition System",
-  "repository": "git://github.com/skingaby/postr.git",
-  "keywords": ["node", "express", "static", "postr"],
-  "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "image": "heroku/nodejs"
-}
