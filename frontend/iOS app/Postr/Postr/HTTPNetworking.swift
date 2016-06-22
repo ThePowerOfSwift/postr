@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 struct HTTPNetworking {
-    static let postrURL = "https://366397bb.ngrok.io"
+    static let postrURL = "https://163ff0a0.ngrok.io"
     static var JWT : String!
     static var username : String!
     

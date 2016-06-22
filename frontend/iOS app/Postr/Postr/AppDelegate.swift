@@ -10,27 +10,49 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    let fontName = "coolvetica"
     var window: UIWindow?
 
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let fontName = "coolvetica"
-
+    func setPostrStyle() {
+        // declare style attributes for Navigation bar
         let attrs = [
             NSForegroundColorAttributeName : UIColor.whiteColor(),
             NSFontAttributeName : UIFont(name: fontName, size: 25)!
         ]
         
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
-        UILabel.appearance().font = UIFont(name: fontName, size: 12)
-        
+        // Set navigation bar background color and font color
         UINavigationBar.appearance().barTintColor = UIColor(red:0.05, green:0.17, blue:0.32, alpha:1.0)
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = attrs
-        
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName : UIFont(name: fontName, size: 18)!], forState: UIControlState.Normal)
+    }
+    
+    
+    // Set root controller in Main.storyboard
+    func setRootController() {
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.makeKeyAndVisible()
+        let controllerId = "LoginNavController"
+//        let controllerId = "EventsNavController"
         
+//        let controllerId = "VoteNavController"
+        
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let initViewController: UIViewController = storyboard.instantiateViewControllerWithIdentifier(controllerId) as UIViewController
+        self.window?.rootViewController = initViewController
+    }
+    
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        setRootController()
+        setPostrStyle()
+        
+        
+        
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+//        UILabel.appearance().font = UIFont(name: fontName, size: 12)
         
         // Override point for customization after application launch.
         return true
