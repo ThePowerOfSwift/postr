@@ -114,7 +114,7 @@ class VoteController: UIViewController {
                 device.focusMode = .Locked
                 device.unlockForConfiguration()
             } catch {
-                // handle error
+                print("Error in configureDevice()")
                 return
             }
         }
@@ -172,7 +172,7 @@ class VoteController: UIViewController {
                     
                     device.unlockForConfiguration()
                 } catch {
-                    // handle error
+                    print("Error in zoomInStart()")
                     return
                 }
             }
@@ -192,7 +192,7 @@ class VoteController: UIViewController {
                     
                     device.unlockForConfiguration()
                 } catch {
-                    // handle error
+                    print("Error in zoomOutStart()")
                     return
                 }
             }

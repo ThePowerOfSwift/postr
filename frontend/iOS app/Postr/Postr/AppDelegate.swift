@@ -33,28 +33,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setRootController() {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
-        let controllerId = "LoginNavController"
-//        let controllerId = "EventsNavController"
-        
-//        let controllerId = "VoteNavController"
-        
+        let controllerId = "LoginNavController"      
         
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let initViewController: UIViewController = storyboard.instantiateViewControllerWithIdentifier(controllerId) as UIViewController
         self.window?.rootViewController = initViewController
     }
     
-
+    // Set styling at app start up
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         setRootController()
         setPostrStyle()
-        
-        
-        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
-//        UILabel.appearance().font = UIFont(name: fontName, size: 12)
         
-        // Override point for customization after application launch.
         return true
     }
 

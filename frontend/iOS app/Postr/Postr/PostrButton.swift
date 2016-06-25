@@ -38,7 +38,6 @@ class PostrButton: UIButton {
             existingLayer.removeFromSuperlayer()
         }
         
-        // 
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: cornerRadius).CGPath
         shapeLayer.fillColor = rectangleColor.CGColor

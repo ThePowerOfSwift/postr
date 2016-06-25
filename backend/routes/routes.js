@@ -33,8 +33,6 @@
         // Obtain reference to the vision component
         var vision = gcloud.vision();
         
-        
-        
         // Set up for calls to Google Maps Service
         var options = {
             provider: 'google',
@@ -48,8 +46,41 @@
         
         
         
-        
         ///////////////////////////// Helper Functions /////////////////////////////
+        
+        // Extend nearest neighbour library to return the K most similar neighbours, 
+        // rather than just the most nearest neighbour
+        nn.findKMostSimilar = function(query, items, fields, callback) {
+            var similarity, unmatchedFields, results, buffer, i, item, _ref
+            buffer = []
+            result = []
+            i = 0
+            var temp;
+
+            // Calculate similarity for each given item
+            while (i < items.length) {
+              temp = {"title": items[i]["title"], "author": items[i]["author"]}
+              item = temp
+              _ref = recordSimilarity(item, query, fields), similarity = _ref[0], unmatchedFields = _ref[1];
+              buffer.push([similarity, items[i]])
+              i++
+            }
+
+            // Sort in descending order of similarity
+            buffer.sort(function(a, b) {
+                a = a[0];
+                b = b[0];
+
+                return a < b ? 1 : (a > b ? -1 : 0);
+            });
+            
+            // Return the 3 moster nearest neighbours
+            result.push(buffer[0])
+            result.push(buffer[1])
+            result.push(buffer[2])
+
+            callback(result, unmatchedFields)
+        };
 
         
         // Constructs string representation of authors array
@@ -63,7 +94,6 @@
             for (var i = 1; i < limit; i++) {
                 authors += ", " + posterAuthors[i];
             }
-            
             
             if (numberAuthors != 1) {
                 authors += " and " + posterAuthors[limit];    
@@ -110,7 +140,7 @@
         }
         
         // Correlates OCR output to poster entru in database
-        function findNearestNeighbour(posterText, event_id, res) {
+        function findNearestPosters(posterText, event_id, res) {
             // Nearest neighbour base of comparision. 
             var query = {title: posterText[0].desc, authors: posterText[0].desc };
             
@@ -162,10 +192,13 @@
         
         // Return nearest events to mobile app user's current location. 
         app.post('/nearestEvents', authToken, function(req, res) {
-            console.log('GET /nearestEvents');            
+            console.log('GET /nearestEvents');     
+            
+            // User's latitude and longitude points
             var userLat = req.body.latitude;
             var userLon = req.body.longitude;    
   
+            // Database query
             var getEventsQuery
                 = "SELECT * \
                    FROM events;";
@@ -177,12 +210,13 @@
         
         // Applies optical character recogntion to identify 
         // corresponding poster entry in database
-        app.post('/events/:event/findPoster', type, authToken, function(req, res) {
+        app.post('/events/:event/findPoster', type, function(req, res) {    
             console.log('POST /events/:event/findPoster'); 
             
             var imageFilePath = req.file.path;
             var event_id = req.params.event;
             
+            // Recognise text captured in poster image
             detectText(imageFilePath, function (err, posterText) {
                 if (posterText == []) {
                     console.log("no text recognised")
@@ -195,7 +229,7 @@
 
                 console.log('\n\n\n' + 'OCR output:\n' + posterText[0].desc + '\n\n\n');
                 
-                findNearestNeighbour(posterText, event_id, res);
+                findNearestPosters(posterText, event_id, res);
             });
         });
         
@@ -203,6 +237,7 @@
         app.get('/events', authToken, function (req, res) {
             console.log('GET /events');
             
+            // Database query
             var getEventsQuery
                 = "SELECT * \
                    FROM events;";
@@ -214,13 +249,14 @@
             });
         });
         
-        
-        
         // Create a new event
         app.post('/events', authToken, function(req, res) {
             console.log('POST /events');
             
+            // Convert event address into corresponding latitude and longitude point
             geocoder.geocode(req.body.address, function(err, mapRes) {
+                
+                // Event parameters
                 var name = req.body.name;
                 var description = req.body.description;
                 var address = mapRes[0].formattedAddress;
@@ -229,6 +265,7 @@
                 var start_date = req.body.start_date;
                 var end_date = req.body.end_date;
                 
+                // Database query
                 var postEventsQuery
                     = "INSERT INTO 'events' (name, address, latitude, longitude, start_date, end_date, description) \
                       VALUES ('" +  name + "', '" + address + "', " + latitude + ", " + longitude + ", '" +
@@ -236,9 +273,10 @@
 
                 db.run(postEventsQuery, function(err) { 
                     if (err) {
-                        res.status(500).json({
-                            error: err
-                        })
+                        console.log(err);
+                        return res.status(500).json({
+                           msg: err 
+                        });
                     } else {
                         res.status(200).json({
                             event: {
@@ -258,11 +296,13 @@
         
         
        // Returns posters associated with an individual event
-       app.get('/events/:event', function (req, res) {
+        app.get('/events/:event', function (req, res) {
             console.log('GET /events/:event');
            
+            // Event id used for database identification
             var event_id = req.params.event;
             
+            // Database query
             var getPostersForEventQuery = "SELECT * \
                                            FROM posters \
                                            WHERE event_id=" + event_id + ";"; 
@@ -270,11 +310,14 @@
             db.all(getPostersForEventQuery, function(err, rows) {
                 if (err) {
                     console.log(err);
+                    return res.status(500).json({
+                       msg: err 
+                    });
+                } else {
+                    return res.status(200).json({
+                        posters: rows
+                    });                    
                 }
-                
-                return res.status(200).json({
-                    posters: rows
-                });
             });
         });
         
@@ -282,12 +325,14 @@
         app.post('/events/:event/posters', function (req, res) {
             console.log('POST /events/:event/posters');
             
+            // Poster parameters
             var event_id = req.params.event;
             var title = req.body.title;
             var authors = constructAuthorsString(req.body.authors);
             var description = req.body.description;
             var votes = req.body.votes;
             
+            // Database query
             var postPosterQuery
                 = "INSERT INTO 'posters' (event_id, title, authors, description, votes) \
                    VALUES (" + event_id + ", '" + title + "', '" + authors + "', '" + 
@@ -296,18 +341,21 @@
             db.run(postPosterQuery, function(err) { 
                 if (err) {
                     console.log(err);
+                    return res.status(500).json({
+                       msg: err 
+                    });
+                } else {
+                    return res.status(200).json({
+                        poster: {
+                            poster_id: this.lastID, 
+                            event_id: event_id, 
+                            title: title, 
+                            authors: authors, 
+                            description: description, 
+                            votes: votes
+                        }
+                    });            
                 }
-                
-                return res.status(200).json({
-                    poster: {
-                        poster_id: this.lastID, 
-                        event_id: event_id, 
-                        title: title, 
-                        authors: authors, 
-                        description: description, 
-                        votes: votes
-                    }
-                });            
             }); 
         });
 
@@ -317,6 +365,7 @@
         function insertPosterAuthors(poster_id, author, res) {
             console.log("poster_id: " + poster_id + ", author: " + author)
             
+            // Database query
             var addPosterAuthorQuery = "INSERT INTO 'poster_authors' (poster_id, author) \
                                         VALUES (" + poster_id + ", '" + author + "');"
                                         
@@ -333,26 +382,30 @@
         // Upvote a poster
         app.post('/events/:event/posters/:poster/upvote', authToken, function (req, res) {
             console.log('POST /events/:event/posters/:poster/upvote');
+            
+            // Poster, username parameters
             var username = req.body.username
             var event_id = req.params.event;
             var poster_id = req.params.poster;
 
+            // Database queries    
             var addPosterVoterQuery = "INSERT INTO 'poster_voters' (poster_id, username) \
                                        VALUES (" + poster_id + ", '" + username + "');"
-            
             var putUpvoteQuery = "UPDATE posters \
                                   SET votes = votes + 1 \
                                   WHERE event_id=" + event_id + 
                                 " AND poster_id=" + poster_id + ";";
 
             
+            // Check that user hasn't already voted for the poster
             db.run(addPosterVoterQuery, function(err) { 
                 if (err) {
                     console.log(err)
                     return res.status(500).json({
-                        msg: "Already voted for this Poster!"
+                        msg: 'Already voted for this Poster!'
                     });
                 } else {
+                    // Upvote poster
                     db.run(putUpvoteQuery, function(err) {
                         if (err) {
                             console.log(err)
@@ -361,7 +414,7 @@
                             });
                         } else {
                             return res.status(200).json({
-                                msg: "Voted for Poster"
+                                msg: 'Voted for Poster'
                             });
                         }
                     });                    
@@ -371,6 +424,8 @@
         
         /////////////////////////////////////////////  Authentication Routes  ////////////////////////////////////////////////
         
+        // Create JSON Web token used in
+        // token-authentication
         function createJWT(username) {  
           return jwt.sign({
               usename: username,
@@ -380,25 +435,25 @@
         }
         
         app.post('/register', function(req, res) {
-            console.log("POST /register")
+            console.log('POST /register')
             
             var username = req.body.username;
             var password = req.body.password;
             
+            // Check to see if username and password fields have
+            // been filled out
             if(!username || !password) {
                 return res.status(500).json({
                     message: 'Please fill username and password fields'
                 });
-            } else if (false) {
-                // TODO: account for case when a given 
-                // username already exists in schema    
-            }
+            } 
             
             // Create salt and a hash of password 
             // to be stored in users schema
             var salt = crypto.randomBytes(32).toString('hex');
             var hash = crypto.pbkdf2Sync(password, salt, 1000, 128, 'sha512').toString('hex');
             
+            // Database query
             var postUserQuery
                 = "INSERT INTO 'users' (username, hash, salt) \
                    VALUES ('" + username + "', '" + hash + "', '" +
@@ -418,15 +473,12 @@
         });
         
         app.post('/login', function(req, res){
-            console.log("POST /login")
+            console.log('POST /login')
             
             var username = req.body.username;
             var password = req.body.password;
 
             if (!req.body.username || !req.body.password){
-                console.log(req.body.username)
-                console.log(req.body.password)
-                
                 return res.status(500).json({
                     msg: 'Please fill username and password fields'
                 });

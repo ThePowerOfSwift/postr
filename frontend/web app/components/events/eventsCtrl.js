@@ -15,7 +15,7 @@
                !$scope.start_date || !$scope.end_date ||
                -compareDates($scope.start_date) < getToday() ||
                compareDates($scope.start_date) < compareDates($scope.end_date)) { 
-                console.log('Error in eventsCtrl. TODO: write an error handler');
+                console.log('Error in eventsCtrl.');
                 return; 
             }
 

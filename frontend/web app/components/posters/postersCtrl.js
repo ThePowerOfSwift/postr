@@ -49,8 +49,7 @@
                 
                 // Process server response
                 this.on('success', function(file, res) {
-                    var msg = 'Voted for: ' + '\'' + res.title 
-                              + '\'\n' + 'by ' + res.author;
+                    var msg = res.posters;
                     
                     Materialize.toast(msg, 5000, 'rounded');
                   });

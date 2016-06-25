@@ -19,30 +19,30 @@
     var app            = express();
 
         
-    // set our port
+    // Set up port
     var port = process.env.PORT || 3000; 
         
     // Passport configuration
     require('./config/passport.js')(passport, passport_local, sqlite, crypto);
     
-    // get all data/stuff of the body (POST) parameters
-    // parse application/json 
+    // Get all data/stuff of the body (POST) parameters
+    // Parse application/json 
     app.use(bodyParser.json()); 
 
-    // parse application/x-www-form-urlencoded
+    // Parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true })); 
     
     // Set the static files location
     app.use(express.static(__dirname + '/../frontend/web app')); 
     
-    // routes 
+    // Routes 
     require('./routes/routes.js')(app, express, sqlite, multer, fs, gcloud, nn, node_geocoder, 
                                   geolib, crypto, jwt, express_jwt, passport); 
     
     // Passport initilisation
     app.use(passport.initialize());
     
-    // expose app           
+    // Expose app           
     exports = module.exports = app; 
    
     // Startup our app at http://localhost:3000

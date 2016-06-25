@@ -1,4 +1,4 @@
- {
+{
   "name": "Postr",
   "version": "0.0.0",
   "description": "The Poster Voting Competition System",
@@ -16,10 +16,7 @@
   "readme": "README.md",
   "author": "Steven Kingaby",
   "license": "ISC",
-  "keywords": [
-    "heroku", 
-    "node", 
-    "postr"  
-  ]
+  "dependencies": {
+    "alike": "^1.3.0"
+  }
 }
-
