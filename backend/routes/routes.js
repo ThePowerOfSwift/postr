@@ -51,7 +51,7 @@
         // Extend nearest neighbour library to return the K most similar neighbours, 
         // rather than just the most nearest neighbour
         nn.findKMostSimilar = function(query, items, fields, callback) {
-            var similarity, unmatchedFields, results, buffer, result, i, item, _ref
+            var similarity, unmatchedFields, result, buffer, result, i, item, _ref
             buffer = []
             result = []
             i = 0
