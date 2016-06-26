@@ -18,7 +18,7 @@
         // i.e. default dropzone filename
         var type = upload.single('file');
         
-        // Threshold value
+        // Threshold value used in poster recognition
         var thresholdValue = 0.15
         
         // GOOGLE_APPLICATION_CREDENTIALS and GCLOUD_PROJECT
@@ -51,7 +51,7 @@
         // Extend nearest neighbour library to return the K most similar neighbours, 
         // rather than just the most nearest neighbour
         nn.findKMostSimilar = function(query, items, fields, callback) {
-            var similarity, unmatchedFields, results, buffer, i, item, _ref
+            var similarity, unmatchedFields, results, buffer, result, i, item, _ref
             buffer = []
             result = []
             i = 0
@@ -61,7 +61,7 @@
             while (i < items.length) {
               temp = {"title": items[i]["title"], "author": items[i]["author"]}
               item = temp
-              _ref = recordSimilarity(item, query, fields), similarity = _ref[0], unmatchedFields = _ref[1];
+              _ref = nn.recordSimilarity(item, query, fields), similarity = _ref[0], unmatchedFields = _ref[1];
               buffer.push([similarity, items[i]])
               i++
             }
