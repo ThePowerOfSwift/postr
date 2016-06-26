@@ -6,6 +6,7 @@
 //  Copyright © 2016 Steven Kingaby. All rights reserved.
 //
 
+// Represents a poster that a user can vote for
 struct Poster {
     var poster_id: Int
     var event_id: Int

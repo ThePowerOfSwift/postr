@@ -6,6 +6,7 @@
 //  Copyright © 2016 Steven Kingaby. All rights reserved.
 //
 
+// Represents a Postr event in which users vote for their favourite posters
 struct Event {
     var event_id: Int
     var name: String?

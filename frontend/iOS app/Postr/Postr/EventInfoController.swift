@@ -14,7 +14,6 @@ class EventInfoController: UIViewController {
     @IBAction func cancelToEventInfoController(segue:UIStoryboardSegue) {
     }
 
-
     @IBOutlet weak var eventAddress: UITextView!
     @IBOutlet weak var eventDescription: UITextView!
     @IBOutlet weak var eventDate: UITextView!
