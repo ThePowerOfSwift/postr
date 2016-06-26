@@ -48,6 +48,40 @@
         
         ///////////////////////////// Helper Functions /////////////////////////////
         
+        // Extend nearest neighbour library to return the K most similar neighbours, 
+        // rather than just the most nearest neighbour
+        nn.findKMostSimilar = function(query, items, fields, callback) {
+            var similarity, unmatchedFields, result, buffer, result, i, item, _ref
+            buffer = []
+            result = []
+            i = 0
+            var temp;
+
+            // Calculate similarity for each given item
+            while (i < items.length) {
+              temp = {"title": items[i]["title"], "author": items[i]["author"]}
+              item = temp
+              _ref = nn.recordSimilarity(item, query, fields), similarity = _ref[0], unmatchedFields = _ref[1];
+              buffer.push([similarity, items[i]])
+              i++
+            }
+
+            // Sort in descending order of similarity
+            buffer.sort(function(a, b) {
+                a = a[0];
+                b = b[0];
+
+                return a < b ? 1 : (a > b ? -1 : 0);
+            });
+            
+            // Return the 3 moster nearest neighbours
+            result.push(buffer[0])
+            result.push(buffer[1])
+            result.push(buffer[2])
+
+            callback(result, unmatchedFields)
+        };
+
         // Constructs string representation of authors array
         // to be sent back to client-side
         function constructAuthorsString(posterAuthors) {
