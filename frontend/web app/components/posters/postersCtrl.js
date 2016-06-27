@@ -34,7 +34,7 @@
             accordion : false 
         });
         
-        
+        // Initializes drag and drop feature
         $("#ocrImageUpload").dropzone({ 
             url: '/events/' + $stateParams.id + '/findPoster',
             acceptedFiles: 'image/*', 
