@@ -12,7 +12,7 @@
         // Get middleware for authentication jwt tokens
         var authToken = express_jwt({secret: process.env.TOKEN_SIGN});
         
-        var upload = multer({ dest: 'uploads/'});
+        var upload = multer({dest: 'uploads/'});
         
         // Allows loading of single file called 'file'
         // i.e. default dropzone filename
@@ -27,7 +27,7 @@
 
         // Initialize gcloud
         gcloud = gcloud({
-            projectId: 'foo'
+            projectId: 'postrOCR'
         });
 
         // Obtain reference to the vision component
@@ -52,17 +52,16 @@
         // rather than just the most nearest neighbour. Same logic used as in 
         // nearest neighbour search in library.
         exports.findKMostSimilar = function(query, items, fields, callback) {
-            var similarity, unmatchedFields, results, buffer, result, item, _ref
-            buffer = []
-            result = []
-            var temp;
+            var similarity, unmatchedFields, buffer, result, item, _ref, temp;
+            buffer = [];
+            result = [];
 
             // Calculate similarity for each given item
             for (var i = 0; i < items.length; i++) {
-              temp = {"title": items[i]["title"], "author": items[i]["author"]}
-              item = temp
+              temp = {"title": items[i]["title"], "author": items[i]["author"]};
+              item = temp;
               _ref = recordSimilarity(item, query, fields), similarity = _ref[0], unmatchedFields = _ref[1];
-              buffer.push([similarity, items[i]])
+              buffer.push([similarity, items[i]]);
             }
 
             // Sort in descending order of similarity
@@ -74,18 +73,18 @@
             });
 
             // Return the 3 moster nearest neighbours
-            result.push(buffer[0])
-            result.push(buffer[1])
-            result.push(buffer[2])
+            result.push(buffer[0]);
+            result.push(buffer[1]);
+            result.push(buffer[2]);
 
-            callback(result, unmatchedFields)
+            callback(result, unmatchedFields);
         };
 
         // Constructs string representation of authors array
         // to be sent back to client-side
         function constructAuthorsString(posterAuthors) {
             posterAuthors = posterAuthors.split('\n');
-            var numberAuthors = posterAuthors.length
+            var numberAuthors = posterAuthors.length;
             var limit = numberAuthors - 1;
             var authors = posterAuthors[0];
             
@@ -97,7 +96,7 @@
                 authors += " and " + posterAuthors[limit];    
             }
             
-            return authors
+            return authors;
         }
         
         // Uses the Vision API to detect labels in the given file.
@@ -128,11 +127,11 @@
                 if (highestSimilarity < thresholdValue) {
                     return res.status(500).json({
                         msg: "Poster is not registered in this Event!"
-                    })                        
+                    });                        
                 } else {
                     return res.status(200).json({
                         posters: nearestNeighbors
-                    })    
+                    });    
                 }
             });
         }
@@ -169,20 +168,20 @@
             var index;
 
             for (var i = 0; i < events.length; i++) {
-                eventLocations.push({latitude: events[i]["latitude"], longitude: events[i]["longitude"]})
+                eventLocations.push({latitude: events[i]["latitude"], longitude: events[i]["longitude"]});
             }
 
             var nearestLocations = geolib.orderByDistance({latitude: userLat, longitude: userLon}, 
-                                                 eventLocations)
+                                                 eventLocations);
             
             for (var i = 0; i < nearestLocations.length; i++) {
-                index = nearestLocations[i]["key"]
-                nearestEvents.push(events[index])
+                index = nearestLocations[i]["key"];
+                nearestEvents.push(events[index]);
             }
             
             return res.status(200).json({
                 events: nearestEvents
-            })
+            });
         }
 
         
@@ -361,7 +360,7 @@
         // Inserts poster_id and author in schema poster_authors schema
         // Later used to stop double voting
         function insertPosterAuthors(poster_id, author, res) {
-            console.log("poster_id: " + poster_id + ", author: " + author)
+            console.log("poster_id: " + poster_id + ", author: " + author);
             
             // Database query
             var addPosterAuthorQuery = "INSERT INTO 'poster_authors' (poster_id, author) \
@@ -382,7 +381,7 @@
             console.log('POST /events/:event/posters/:poster/upvote');
             
             // Poster, username parameters
-            var username = req.body.username
+            var username = req.body.username;
             var event_id = req.params.event;
             var poster_id = req.params.poster;
 
@@ -433,7 +432,7 @@
         }
         
         app.post('/register', function(req, res) {
-            console.log('POST /register')
+            console.log('POST /register');
             
             var username = req.body.username;
             var password = req.body.password;
@@ -471,7 +470,7 @@
         });
         
         app.post('/login', function(req, res){
-            console.log('POST /login')
+            console.log('POST /login');
             
             var username = req.body.username;
             var password = req.body.password;
