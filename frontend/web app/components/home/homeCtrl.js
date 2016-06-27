@@ -8,7 +8,7 @@
     '$http',  
     'authToken',    
     function($scope, $state, $http, authToken) {
-        $scope.postrUser = {}
+        $scope.postrUser = {};
         
         $scope.loginToAccount = function() {
             // Make sure all fields all filled out.
@@ -30,7 +30,6 @@
         }
         
         $scope.registerAccount = function() {
-            
             // Make sure all fields all filled out.
             // If not prompt user
             if(!$scope.postrUser.username || $scope.postrUser.username === '' ||
@@ -38,8 +37,6 @@
                 Materialize.toast("Please fill out all fields", 5000, 'rounded');
                 return; 
             }
-
-            console.log("registering account");
             
             // Submit user credentials to be set in a post request
             authToken.registerAccount($scope.postrUser).error(function(error) {
