@@ -10,8 +10,6 @@
     function($scope, $stateParams, events, posters) {
         $scope.posters = posters;
         
-        
-        
         $scope.addPoster = function() {
             if(!$scope.title || $scope.title === '' ||
                !$scope.authors || $scope.authors === '') { 
