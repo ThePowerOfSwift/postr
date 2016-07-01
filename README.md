@@ -1,4 +1,4 @@
-# Postr: The Poster Voting Platform
+# Postr: The Poster Competition Voting System
 
 Individual Poster Voting Competition Project (final year).
 
